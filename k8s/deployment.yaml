@@ -16,7 +16,6 @@ spec:
     spec:
       containers:
       - name: devops-exam-container
-        # Docker Hub image for the application
         image: aimenmnr/fa23-bcs-027:latest
         ports:
         - containerPort: 3000

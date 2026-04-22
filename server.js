@@ -5,24 +5,19 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
-// Database connection mock/setup
-// In a real app, you would pass these via environment variables
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL || 'postgresql://user:password@localhost:5432/mydb',
 });
 
-// In-memory message store for demonstration
 let messages = [
   { text: "My Roll number is fa23-bcs-027", time: "4/22/2026, 8:35:25 PM" },
   { text: "this is my devops project", time: "4/22/2026, 8:34:48 PM" },
   { text: "hi", time: "4/22/2026, 8:34:41 PM" }
 ];
 
-// Backend API Endpoints
 app.get('/api/messages', (req, res) => {
   res.json(messages);
 });
@@ -34,7 +29,7 @@ app.post('/api/messages', (req, res) => {
       text,
       time: new Date().toLocaleString()
     };
-    messages.unshift(newMessage); // Add to the beginning
+    messages.unshift(newMessage);
     res.status(201).json(newMessage);
   } else {
     res.status(400).json({ error: "Message text is required" });

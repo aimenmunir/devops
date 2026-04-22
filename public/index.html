@@ -96,24 +96,18 @@
 <body>
     <div class="app-card">
         <h1>fa23-bcs-027 DevOps App</h1>
-        
         <div class="input-group">
             <input type="text" id="messageInput" placeholder="Type a message...">
             <button onclick="addMessage()">Add</button>
         </div>
         <div id="successMsg" class="success-msg">Message added!</div>
-
         <h2>Messages</h2>
-        <div id="messageList" class="message-list">
-            <!-- Messages will appear here -->
-        </div>
+        <div id="messageList" class="message-list"></div>
     </div>
-
     <script>
         const messageList = document.getElementById('messageList');
         const messageInput = document.getElementById('messageInput');
         const successMsg = document.getElementById('successMsg');
-
         async function fetchMessages() {
             try {
                 const res = await fetch('/api/messages');
@@ -125,21 +119,18 @@
                     </div>
                 `).join('');
             } catch (err) {
-                console.error("Error fetching messages:", err);
+                console.error(err);
             }
         }
-
         async function addMessage() {
             const text = messageInput.value.trim();
             if (!text) return;
-
             try {
                 const res = await fetch('/api/messages', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ text })
                 });
-                
                 if (res.ok) {
                     messageInput.value = '';
                     successMsg.style.visibility = 'visible';
@@ -147,11 +138,9 @@
                     fetchMessages();
                 }
             } catch (err) {
-                console.error("Error adding message:", err);
+                console.error(err);
             }
         }
-
-        // Initial fetch
         fetchMessages();
     </script>
 </body>
