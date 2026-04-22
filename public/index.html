@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps Exam Full-Stack App</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            text-align: center;
+            padding: 50px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+        h1 {
+            color: #0078D4; /* Azure Blue */
+        }
+        #api-response {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #e1dfdd;
+            border-radius: 5px;
+            font-family: monospace;
+            word-wrap: break-word;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #0078D4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #005a9e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DevOps Exam Application</h1>
+        <p>This is the frontend of our cloud-native application.</p>
+        <p>Registration Number: <strong>fa23-bcs-027</strong></p>
+        <button onclick="checkAPI()">Check API & Database Status</button>
+        <div id="api-response">API response will appear here...</div>
+    </div>
+
+    <script>
+        async function checkAPI() {
+            const responseDiv = document.getElementById('api-response');
+            responseDiv.innerHTML = "Loading...";
+            try {
+                const response = await fetch('/api/status');
+                const data = await response.json();
+                responseDiv.innerHTML = JSON.stringify(data, null, 2);
+            } catch (error) {
+                responseDiv.innerHTML = "Error connecting to API: " + error;
+            }
+        }
+    </script>
+</body>
+</html>
