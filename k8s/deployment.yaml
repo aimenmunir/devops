@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
       - name: devops-exam-container
-        # Make sure to replace <your-dockerhub-username> with your actual Docker Hub username!
-        image: <your-dockerhub-username>/fa23-bcs-027:latest
+        # Docker Hub image for the application
+        image: aimenmunir/fa23-bcs-027:latest
         ports:
         - containerPort: 3000
         env:
