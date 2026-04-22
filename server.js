@@ -15,11 +15,34 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL || 'postgresql://user:password@localhost:5432/mydb',
 });
 
-// Backend API Endpoint
+// In-memory message store for demonstration
+let messages = [
+  { text: "My Roll number is fa23-bcs-027", time: "4/22/2026, 8:35:25 PM" },
+  { text: "this is my devops project", time: "4/22/2026, 8:34:48 PM" },
+  { text: "hi", time: "4/22/2026, 8:34:41 PM" }
+];
+
+// Backend API Endpoints
+app.get('/api/messages', (req, res) => {
+  res.json(messages);
+});
+
+app.post('/api/messages', (req, res) => {
+  const { text } = req.body;
+  if (text) {
+    const newMessage = {
+      text,
+      time: new Date().toLocaleString()
+    };
+    messages.unshift(newMessage); // Add to the beginning
+    res.status(201).json(newMessage);
+  } else {
+    res.status(400).json({ error: "Message text is required" });
+  }
+});
+
 app.get('/api/status', async (req, res) => {
   try {
-    // Attempting a simple query just to show DB connection logic
-    // We wrap it in a try-catch so the app doesn't crash if DB is not available
     let dbStatus = "Not connected";
     if (process.env.DATABASE_URL) {
       const client = await pool.connect();
@@ -34,8 +57,7 @@ app.get('/api/status', async (req, res) => {
       env: process.env.NODE_ENV || 'development'
     });
   } catch (error) {
-    console.error("Database connection error:", error);
-    res.status(500).json({ status: "error", message: "Database connection failed", details: error.message });
+    res.status(500).json({ status: "error", message: "Database connection failed" });
   }
 });
 
